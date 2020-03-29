@@ -28,6 +28,11 @@ public class UserService implements UserDetailsService {
         return user.getId();
     }
 
+    @Transactional
+    public User findOne(Long id) {
+        return userRepository.findOne(id);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
