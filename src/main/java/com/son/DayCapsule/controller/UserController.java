@@ -3,6 +3,10 @@ package com.son.DayCapsule.controller;
 import com.son.DayCapsule.domain.User;
 import com.son.DayCapsule.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +20,6 @@ public class UserController {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-
-    @RequestMapping("/")
-    public String root() {
-        return "redirect:/user/signin";
-    }
 
     @GetMapping("/user/signup")
     public String signup(Model model) {
@@ -44,7 +43,10 @@ public class UserController {
     }
 
     @GetMapping("/user/main")
-    public String signin() {
+    public String main(Model model) {
+        /* 현재 로그인 인증 성공한 UserDetails를 불러온다 */
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", user);
         return "home";
     }
 
