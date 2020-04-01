@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -24,6 +25,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return new LoginSuccessHandler("/user/main");
+    }
+
     // 접근 권한에 대한 설정
     /** 로그인 및 로그아웃 시 SpringSecurity가 UserDetails 객체들에 한에서 세션 관리를 한다 **/
     @Override
@@ -36,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/user/signin") // 이런 요청이 Security의 "/login"을 대체한다
-                .defaultSuccessUrl("/user/main") // 로그인 성공시 요청할 주소
+                .successHandler(successHandler()) // 로그인 성공시 처리할 메서드
                 .usernameParameter("username").passwordParameter("password") // 페이지에서 바인딩할 유저 정보 파라미터의 이름, 현재 값은 설정 안할 시의 기본 값이다
                 .permitAll()
                 .and()
