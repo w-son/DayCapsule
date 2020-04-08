@@ -1,6 +1,5 @@
 package com.son.DayCapsule.service;
 
-import com.son.DayCapsule.controller.SignupForm;
 import com.son.DayCapsule.domain.Role;
 import com.son.DayCapsule.domain.User;
 import com.son.DayCapsule.repository.UserRepository;
@@ -28,9 +27,12 @@ public class UserService implements UserDetailsService {
         return user.getId();
     }
 
-    @Transactional
     public User findOne(Long id) {
         return userRepository.findOne(id);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAllV1();
     }
 
     @Override
@@ -38,7 +40,7 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByUsername(username);
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        if(("ADMIN").equals(username)) {
+        if (("ADMIN").equals(username)) {
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
         } else {
             authorities.add(new SimpleGrantedAuthority(Role.USER.getValue()));
@@ -46,4 +48,16 @@ public class UserService implements UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
+
+    @Transactional
+    public void update(Long id, String username) {
+        User updateUser = userRepository.findOne(id);
+        updateUser.setUsername(username);
+    }
+
+    @Transactional
+    public void quit(User user) {
+        userRepository.remove(user);
+    }
+
 }
