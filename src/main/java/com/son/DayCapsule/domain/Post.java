@@ -5,13 +5,14 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 public class Post {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "post_id")
     private Long id;
 
@@ -38,7 +39,13 @@ public class Post {
         post.setBody(body);
         post.setWriter(writer);
         post.setPostDate(LocalDateTime.now());
+        post.setViewCount(0);
         return post;
+    }
+
+    // 비즈니스 메서드
+    public void addViewCount() {
+        this.viewCount += 1;
     }
 
 }
