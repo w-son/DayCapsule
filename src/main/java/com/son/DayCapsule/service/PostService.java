@@ -39,7 +39,6 @@ public class PostService {
     }
 
     @Transactional
-
     public void delete(Post post) {
         postRepository.remove(post);
     }

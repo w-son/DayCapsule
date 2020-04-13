@@ -1,10 +1,11 @@
-package com.son.DayCapsule.controller;
+package com.son.DayCapsule.controller.fom;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
-public class SignupForm {
+@Getter
+@Setter
+public class SigninForm {
 
     private String username;
 
