@@ -4,25 +4,25 @@
 <body>
 
 <div class="container" style="padding: 3% 0 0;">
-    <div class="card shadow mb-4">
+    <div class="card mb-4" style="border-radius: 20px;">
 
         <form role="form" action="/post/create" th:object="${postForm}" method="post">
-            <div class="card-header py-3">
+            <div class="card-custom-header">
                 <div class="display-flex align-center">
-                    <h6 class="m-0 font-weight-bold text-success">Today's Capsule</h6>
+                    <h6 class="m-0 success">Today's Capsule</h6>
                     <div class="ml-auto display-flex align-center">
-                        <button type="submit" class="btn btn-md btn-success ml-2">Create</button>
+                        <button type="submit" class="btn btn-md ml-2" style="color: #76b852">Create</button>
                     </div>
                 </div>
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    <label th:for="title" class="m-0 font-weight-bold text-success">제목</label>
+                    <label th:for="title" class="m-0 success">제목</label>
                     <input type="text" th:field="*{title}" class="form-control">
                 </div>
 
                 <div class="form-group">
-                    <label th:for="body" class="m-0 font-weight-bold text-success">내용</label>
+                    <label th:for="body" class="m-0 success">내용</label>
                     <textarea type="text" th:field="*{body}" class="form-control" rows="10"></textarea>
                 </div>
             </div>
