@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationSuccessHandler successHandler() {
-        return new LoginSuccessHandler("/user/main");
+        return new LoginSuccessHandler("/post/main");
     }
 
     // 접근 권한에 대한 설정
@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/css/**", "/js/**", "/images/**", "/resources/**", "/h2-console/**", "/webjars/**").permitAll()
                 .antMatchers("/", "/user/signin", "/user/signup").permitAll()
-                .antMatchers("/user/main").hasRole("USER")
+                .antMatchers("/post/main").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

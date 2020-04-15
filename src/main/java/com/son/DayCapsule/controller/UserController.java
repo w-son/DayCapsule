@@ -5,8 +5,6 @@ import com.son.DayCapsule.controller.fom.SignupForm;
 import com.son.DayCapsule.domain.User;
 import com.son.DayCapsule.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,14 +43,6 @@ public class UserController {
 
         model.addAttribute("signinForm", new SigninForm());
         return "signin";
-    }
-
-    @GetMapping("/user/main")
-    public String main(Model model) {
-        /* 현재 로그인 인증 성공한 UserDetails를 불러온다 */
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("user", user);
-        return "home";
     }
 
 }

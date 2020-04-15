@@ -10,7 +10,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    /** Bean에 등록된 interceptor를 주입 받는다 **/
+    /**
+     * Bean에 등록된 interceptor를 주입 받는다
+     **/
     @Autowired
     @Qualifier(value = "loginInterceptor")
     private HandlerInterceptor loginInterceptor;
@@ -20,9 +22,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         /*
          addPathPatterns : interceptor 적용 시킬 경로
          excludePathPatterns : interceptor 적용 제회할 경로
-         */
+        */
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/user/main");
+                .addPathPatterns("/post/main");
 
     }
 

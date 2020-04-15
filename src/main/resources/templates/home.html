@@ -32,11 +32,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td class="table-center-align">Edinburgh</td>
-                    <td class="table-center-align">61</td>
+                <tr th:each="post : ${posts}">
+                    <td th:text="${#temporals.format(post.postDate, 'yyyy년 MM월 dd일')}"></td>
+                    <td th:text="${post.title}"></td>
+                    <td th:text="${post.writer}" class="table-center-align"></td>
+                    <td th:text="${post.viewCount}" class="table-center-align"></td>
                 </tr>
                 </tbody>
             </table>
