@@ -1,8 +1,13 @@
 package com.son.DayCapsule.service;
 
 import com.son.DayCapsule.domain.Post;
+import com.son.DayCapsule.repository.PostIRepository;
 import com.son.DayCapsule.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +19,7 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final PostIRepository postIRepository;
 
     @Transactional
     public Long create(Post post) {
@@ -28,6 +34,15 @@ public class PostService {
 
     public List<Post> findAll() {
         return postRepository.findAll();
+    }
+
+    /**
+     * Pageable을 사용하기 위한 인터페이스 사용
+     **/
+    public Page<Post> findAllByPage(Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10, Sort.by("postDate").descending());
+        return postIRepository.findAll(pageable);
     }
 
     @Transactional

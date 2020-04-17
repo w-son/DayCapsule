@@ -1,3 +1,22 @@
+#cm {
+    position: absolute;
+}
+
+.now {
+    color: #2a71e2;
+}
+
+.hc {
+    width: 550px;
+    margin: 0 auto;
+}
+
+.pagination > li > a {
+    border-radius: 30% !important;
+    color: #76b852;
+    margin: 0 5px;
+}
+
 .text-primary {
     color: #4e73df;
 }
