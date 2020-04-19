@@ -2,8 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header"></head>
 <body>
-
-
 <div class="container" style="padding: 3% 0 0;">
     <div class="card mb-4" style="border-radius: 20px;">
 
@@ -47,10 +45,11 @@
             posts.number+1 = 현재 페이지
             posts.number+2 = 다음 페이지
             -->
-            <nav class="hc">
-                <ul class="pagination"
+            <nav>
+                <ul class="hc pagination"
                     th:with="start=${T(Math).floor(posts.number/10)*10 + 1},
-                    last=(${start + 9 < posts.totalPages ? start + 9 : posts.totalPages})">
+                    last=(${start + 9 < posts.totalPages ? start + 9 : posts.totalPages})"
+                    th:style="'width: ' + ((${last - start} + 3) * 45 ) + 'px'">
                     <li class="page-item">
                         <a class="page-link" th:href="${posts.first} ? '#' : @{/post/main(page=${posts.number})}"
                            aria-label="Previous">
