@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -31,6 +33,13 @@ public class PostServiceTest {
         return user;
     }
 
+    public void createPost(User user) {
+        for (int i = 1; i <= 10; i++) {
+            Post post = Post.createPost(user, i + "", "Hello World", user.getUsername());
+            postService.create(post);
+        }
+    }
+
     @Test
     public void 게시글생성() throws Exception {
         // given
@@ -43,6 +52,18 @@ public class PostServiceTest {
         Post findPost = postService.findOne(id);
         assertEquals(post, findPost);
         assertEquals(0, findPost.getViewCount());
+    }
+
+    @Test
+    public void 게시물_내용으로_검색() throws Exception {
+        // given
+        User user = createUser();
+        userService.signup(user);
+        createPost(user);
+        // when
+        List<Post> posts = postService.findAllByBodyContains("ello");
+        // then
+        assertEquals(10, posts.size());
     }
 
     @Test

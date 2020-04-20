@@ -37,12 +37,17 @@ public class PostService {
     }
 
     /**
-     * Pageable을 사용하기 위한 인터페이스 사용
+     * 1) 페이징을 사용하는 메서드
+     * 2) 검색 조건(내용을 포함하는)이 포함된 메서드
      **/
     public Page<Post> findAllByPage(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10, Sort.by("postDate").descending());
         return postIRepository.findAll(pageable);
+    }
+
+    public List<Post> findAllByBodyContains(String body) {
+        return postIRepository.findAllByBodyContains(body);
     }
 
     @Transactional
