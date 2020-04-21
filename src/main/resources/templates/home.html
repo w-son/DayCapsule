@@ -4,23 +4,28 @@
 <body>
 <div class="container" style="padding: 3% 0 0;">
     <div class="card mb-4" style="border-radius: 20px;">
-
         <div class="card-custom-header">
             <div class="display-flex align-center">
                 <h6 class="m-0 success">Capsules</h6>
+                <button onclick="location.href = '/post/new'" class="btn btn-md ml-2" style="color: #76b852">캡슐
+                    만들기
+                </button>
+                <button onclick="location.href = '/user/signout'" class="btn btn-md ml-2" style="color: #76b852;">
+                    나가기
+                </button>
                 <div class="ml-auto display-flex align-center">
-                    <button onclick="location.href = '/post/new'" class="btn btn-md ml-2" style="color: #76b852">캡슐
-                        만들기
-                    </button>
-                    <button onclick="location.href = '/user/signout'" class="btn btn-md ml-2" style="color: #76b852;">
-                        나가기
-                    </button>
+                    <form th:action="@{/post/body/search}" role="form">
+                        <div class="input-group">
+                            <input type="text" name="body" id="body" class="form-control">
+                            <button class="btn btn-outline-primary" type="submit">검색</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
 
-        <div class="card-body">
-            <table class="table" style="height: 550px;">
+        <div class="card-body" style="height: 650px;">
+            <table class="table">
                 <thead style="color: #76b852">
                 <tr>
                     <th>날짜</th>
@@ -48,10 +53,12 @@
             <nav>
                 <ul class="hc pagination"
                     th:with="start=${T(Math).floor(posts.number/10)*10 + 1},
-                    last=(${start + 9 < posts.totalPages ? start + 9 : posts.totalPages})"
+                    last=(${start + 9 < posts.totalPages ? start + 9 : posts.totalPages}),
+                    last=(${last == 0 ? 1 : last})"
                     th:style="'width: ' + ((${last - start} + 3) * 45 ) + 'px'">
                     <li class="page-item">
-                        <a class="page-link" th:href="${posts.first} ? '#' : @{/post/main(page=${posts.number})}"
+                        <a class="page-link"
+                           th:href="${posts.first} ? '#' : @{/post/body/search(body=${saved},page=${posts.number})}"
                            aria-label="Previous">
                             <span aria-hidden="true">«</span>
                             <span class="sr-only">Previous</span>
@@ -61,10 +68,11 @@
                         th:each="page : ${#numbers.sequence(start, last)}">
                         <a class="page-link"
                            th:style="${page == posts.number + 1} ? 'color: #307df6'"
-                           th:text="${page}" th:href="@{/post/main(page=${page})}"></a>
+                           th:text="${page}" th:href="@{/post/body/search(body=${saved},page=${page})}"></a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" th:href="${posts.last} ? '#' : @{/post/main(page=${posts.number+2})}"
+                        <a class="page-link"
+                           th:href="${posts.last} ? '#' : @{/post/body/search(body=${saved},page=${posts.number+2})}"
                            aria-label="Next">
                             <span aria-hidden="true">»</span>
                             <span class="sr-only">Next</span>

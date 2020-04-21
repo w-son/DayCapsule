@@ -17,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -35,6 +37,18 @@ public class PostController {
         Page<Post> posts = postService.findAllByPage(pageable);
         model.addAttribute("posts", posts);
 
+        return "home";
+    }
+
+    @GetMapping("/post/body/search")
+    public String searchByBody(
+            @PageableDefault Pageable pageable,
+            HttpServletRequest request,
+            Model model) {
+        String body = request.getParameter("body");
+        Page<Post> posts = postService.findAllByBodyContaining(body, pageable);
+        model.addAttribute("posts", posts);
+        model.addAttribute("saved", body);
         return "home";
     }
 
