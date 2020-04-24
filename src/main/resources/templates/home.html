@@ -6,11 +6,11 @@
     <div class="card mb-4" style="border-radius: 20px;">
         <div class="card-custom-header">
             <div class="display-flex align-center">
-                <h6 class="m-0 success">Capsules</h6>
-                <button onclick="location.href = '/post/new'" class="btn btn-md ml-2" style="color: #76b852">캡슐
+                <!--<h6 class="m-0 success">Capsules</h6>-->
+                <button onclick="location.href = '/post/new'" class="btn btn-md" style="color: #76b852">캡슐
                     만들기
                 </button>
-                <button onclick="location.href = '/user/signout'" class="btn btn-md ml-2" style="color: #76b852;">
+                <button onclick="location.href = '/user/signout'" class="btn btn-md" style="color: #76b852;">
                     나가기
                 </button>
                 <div class="ml-auto display-flex align-center">
@@ -25,21 +25,23 @@
         </div>
 
         <div class="card-body" style="height: 650px;">
-            <table class="table">
+            <table class="table" style="table-layout: fixed">
                 <thead style="color: #76b852">
                 <tr>
-                    <th>날짜</th>
-                    <th>제목</th>
-                    <th class="table-center-align">작성자</th>
-                    <th class="table-center-align">조회수</th>
+                    <th style="width: 25%;">날짜</th>
+                    <th style="width: 35%;">제목</th>
+                    <th style="width: 20%;" class="table-center-align">작성자</th>
+                    <th style="width: 20%;" class="table-center-align">조회수</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="post : ${posts}">
                     <td th:text="${#temporals.format(post.postDate, 'yyyy년 MM월 dd일')}"></td>
-                    <td th:text="${post.title}"></td>
-                    <td th:text="${post.writer}" class="table-center-align"></td>
-                    <td th:text="${post.viewCount}" class="table-center-align"></td>
+                    <td th:text="${post.title}" class="text-truncate"></td>
+                    <td th:text="${post.writer}"
+                        class="text-truncate table-center-align"></td>
+                    <td th:text="${post.viewCount}"
+                        class="text-truncate table-center-align"></td>
                 </tr>
                 </tbody>
             </table>
