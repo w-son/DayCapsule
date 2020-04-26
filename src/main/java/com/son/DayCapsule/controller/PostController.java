@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +57,7 @@ public class PostController {
     public String postForm(Model model) {
         model.addAttribute("postForm", new PostForm());
 
-        return "postCreate";
+        return "post/postCreate";
     }
 
     @PostMapping("/post/create")
@@ -67,6 +68,20 @@ public class PostController {
         postService.create(post);
 
         return "redirect:/post/main";
+    }
+
+    @GetMapping("/post/{id}/info")
+    public String postInfo(@PathVariable("id") Long id, Model model) {
+        // 현재 Security Context에 있는 사용자 정보를 불러온다
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+
+        Post post = postService.findOne(id, true);
+        if (username.equals(post.getWriter())) {
+            model.addAttribute("username", username);
+        }
+        model.addAttribute("post", post);
+        return "post/postInfo";
     }
 
 }

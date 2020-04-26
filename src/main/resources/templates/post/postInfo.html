@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+
+<div class="container" style="padding: 3% 0 0;">
+    <div class="card mb-4" style="border-radius: 20px;">
+
+        <div class="card-custom-header">
+            <div class="display-flex align-center">
+                <h6 th:text="${post.writer}" class="m-0 success"></h6>
+                <h6 class="m-0 success">님의 Capsule</h6>
+                <div class="ml-auto display-flex align-center">
+                    <button onclick="location.href = '/post/main'" class="btn btn-md" style="color: #76b852">뒤로가기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="blog-post" style="margin: 30px;">
+            <div class="content">
+                <h3 class="title">
+                    <a th:text="${post.title}"></a>
+                </h3>
+                <ul class="meta-post">
+                    <li class="date">
+                        <a th:text="${#temporals.format(post.postDate, 'yyyy년 MM월 dd일')}"></a>
+                    </li>
+                    <li class="comment"><a th:text="${post.viewCount}"></a> 회 조회됨</li>
+                </ul>
+                <div class="entry-post">
+                    <p th:text="${post.body}"></p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

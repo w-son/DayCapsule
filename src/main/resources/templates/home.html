@@ -35,7 +35,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="post : ${posts}">
+                <tr th:each="post : ${posts}"
+                    th:onclick="'window.location.href = \'' + @{/post/{id}/info (id=${post.id})} + '\''">
                     <td th:text="${#temporals.format(post.postDate, 'yyyy년 MM월 dd일')}"></td>
                     <td th:text="${post.title}" class="text-truncate"></td>
                     <td th:text="${post.writer}"

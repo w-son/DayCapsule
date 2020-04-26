@@ -27,8 +27,12 @@ public class PostService {
         return post.getId();
     }
 
-    public Post findOne(Long id) {
+    @Transactional
+    public Post findOne(Long id, Boolean isView) {
         Post post = postRepository.findOne(id);
+        if (isView) {
+            post.addViewCount();
+        }
         return post;
     }
 

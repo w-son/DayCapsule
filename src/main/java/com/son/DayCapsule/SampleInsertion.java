@@ -32,7 +32,7 @@ public class SampleInsertion {
             User user = createUser("hong", "123");
             em.persist(user);
             for (int i = 1; i <= 25; i++) {
-                Post post = createPost(user, i + "번쨰 제목", i + "번쨰 게시글", user.getUsername());
+                Post post = createPost(user, i + "번째 제목", i + "번쨰 게시글", user.getUsername());
                 em.persist(post);
             }
         }
