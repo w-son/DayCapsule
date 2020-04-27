@@ -28,6 +28,23 @@ public class PostController {
     private final PostService postService;
     private final UserService userService;
 
+    @GetMapping("/post/new")
+    public String postForm(Model model) {
+        model.addAttribute("postForm", new PostForm());
+
+        return "post/postCreate";
+    }
+
+    @PostMapping("/post/create")
+    public String postCreate(PostForm postForm) {
+        UserDetails me = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findByUsername(me.getUsername());
+        Post post = Post.createPost(user, postForm.getTitle(), postForm.getBody(), user.getUsername());
+        postService.create(post);
+
+        return "redirect:/post/main";
+    }
+
     @GetMapping("/post/main")
     public String main(@PageableDefault Pageable pageable, Model model) {
         /* 현재 로그인 인증 성공한 UserDetails를 불러온다 */
@@ -53,23 +70,6 @@ public class PostController {
         return "home";
     }
 
-    @GetMapping("/post/new")
-    public String postForm(Model model) {
-        model.addAttribute("postForm", new PostForm());
-
-        return "post/postCreate";
-    }
-
-    @PostMapping("/post/create")
-    public String postCreate(PostForm postForm) {
-        UserDetails me = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findByUsername(me.getUsername());
-        Post post = Post.createPost(user, postForm.getTitle(), postForm.getBody(), user.getUsername());
-        postService.create(post);
-
-        return "redirect:/post/main";
-    }
-
     @GetMapping("/post/{id}/info")
     public String postInfo(@PathVariable("id") Long id, Model model) {
         // 현재 Security Context에 있는 사용자 정보를 불러온다
@@ -82,6 +82,22 @@ public class PostController {
         }
         model.addAttribute("post", post);
         return "post/postInfo";
+    }
+
+    @GetMapping("/post/{id}/update")
+    public String postUpdate(@PathVariable("id") Long id, Model model) {
+        Post post = postService.findOne(id, false);
+        model.addAttribute("post", post);
+        model.addAttribute("postForm", new PostForm());
+        return "post/postUpdate";
+    }
+
+    @PostMapping("/post/{id}/update")
+    public String update(@PathVariable("id") Long id, PostForm postForm) {
+        String title = postForm.getTitle();
+        String body = postForm.getBody();
+        postService.update(id, title, body);
+        return "redirect:/post/main";
     }
 
 }

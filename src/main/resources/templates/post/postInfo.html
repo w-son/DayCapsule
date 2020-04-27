@@ -11,6 +11,10 @@
                 <h6 th:text="${post.writer}" class="m-0 success"></h6>
                 <h6 class="m-0 success">님의 Capsule</h6>
                 <div class="ml-auto display-flex align-center">
+                    <button th:if="${username}"
+                            th:onclick="'window.location.href = \'' + @{/post/{id}/update (id=${post.id})} + '\''"
+                            class="btn btn-md" style="color: #76b852">수정하기
+                    </button>
                     <button onclick="location.href = '/post/main'" class="btn btn-md" style="color: #76b852">뒤로가기
                     </button>
                 </div>

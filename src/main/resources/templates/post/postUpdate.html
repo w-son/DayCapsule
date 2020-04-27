@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+
+<div class="container" style="padding: 3% 0 0;">
+    <div class="card mb-4" style="border-radius: 20px;">
+
+        <form role="form" th:action="@{/post/{id}/update (id=${post.id})}" th:object="${postForm}" method="post">
+            <div class="card-custom-header">
+                <div class="display-flex align-center">
+                    <div class="ml-auto display-flex align-center">
+                        <button type="submit" class="btn btn-md ml-2" style="color: #76b852">Update</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label th:for="title" class="m-0 success">제목</label>
+                    <input type="text" th:value="${post.title}" th:name="title" th:id="title" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label th:for="body" class="m-0 success">내용</label>
+                    <textarea type="text" th:text="${post.body}" th:name="body" th:id="body" class="form-control"
+                              rows="10"></textarea>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
