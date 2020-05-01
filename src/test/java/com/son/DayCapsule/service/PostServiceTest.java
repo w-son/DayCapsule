@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -35,8 +36,7 @@ public class PostServiceTest {
 
     public void createPost(User user) {
         for (int i = 1; i <= 10; i++) {
-            Post post = Post.createPost(user, i + "", "Hello World", user.getUsername());
-            postService.create(post);
+            postService.create(user, i + "", "Hello World", user.getUsername());
         }
     }
 
@@ -45,12 +45,10 @@ public class PostServiceTest {
         // given
         User user = createUser();
         userService.signup(user);
-        Post post = Post.createPost(user, "게시글 제목", "게시글 내용", user.getUsername());
         // when
-        Long id = postService.create(post);
+        Long id = postService.create(user, "게시글 제목", "게시글 내용", user.getUsername());
         // then
-        Post findPost = postService.findOne(id);
-        assertEquals(post, findPost);
+        Post findPost = postService.findOne(id, false);
         assertEquals(0, findPost.getViewCount());
     }
 
@@ -71,12 +69,11 @@ public class PostServiceTest {
         // given
         User user = createUser();
         userService.signup(user);
-        Post post = Post.createPost(user, "게시글 제목", "게시글 내용", user.getUsername());
-        Long id = postService.create(post);
+        Long id = postService.create(user, "게시글 제목", "게시글 내용", user.getUsername());
         // when
         postService.update(id, "안녕하세요", "제 이름은 홍길동입니다");
         // then
-        Post findPost = postService.findOne(id);
+        Post findPost = postService.findOne(id, false);
         assertEquals("안녕하세요", findPost.getTitle());
         assertEquals("제 이름은 홍길동입니다", findPost.getBody());
     }
@@ -86,12 +83,12 @@ public class PostServiceTest {
         // given
         User user = createUser();
         userService.signup(user);
-        Post post = Post.createPost(user, "게시글 제목", "게시글 내용", user.getUsername());
-        Long id = postService.create(post);
+        Long id = postService.create(user, "게시글 제목", "게시글 내용", user.getUsername());
+        Post post = postService.findOne(id, false);
         // when
         postService.delete(post);
         // then
-        Post findPost = postService.findOne(id);
-        assertEquals(null, findPost);
+        Post findPost = postService.findOne(id, false);
+        assertNull(findPost);
     }
 }

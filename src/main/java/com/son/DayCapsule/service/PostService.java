@@ -1,6 +1,7 @@
 package com.son.DayCapsule.service;
 
 import com.son.DayCapsule.domain.Post;
+import com.son.DayCapsule.domain.User;
 import com.son.DayCapsule.repository.PostIRepository;
 import com.son.DayCapsule.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,8 @@ public class PostService {
     private final PostIRepository postIRepository;
 
     @Transactional
-    public Long create(Post post) {
+    public Long create(User user, String title, String body, String writer) {
+        Post post = Post.createPost(user, title, body, writer);
         postRepository.save(post);
         return post.getId();
     }

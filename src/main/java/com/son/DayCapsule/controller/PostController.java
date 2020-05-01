@@ -39,8 +39,7 @@ public class PostController {
     public String postCreate(PostForm postForm) {
         UserDetails me = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findByUsername(me.getUsername());
-        Post post = Post.createPost(user, postForm.getTitle(), postForm.getBody(), user.getUsername());
-        postService.create(post);
+        postService.create(user, postForm.getTitle(), postForm.getBody(), user.getUsername());
 
         return "redirect:/post/main";
     }
